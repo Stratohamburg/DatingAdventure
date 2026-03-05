@@ -1,0 +1,143 @@
+[
+  {
+    "itemId": "real_house_deed",
+    "name": "真实房产证",
+    "description": "你名下的真实房产证明，绝对不会穿帮。",
+    "category": "REAL_ASSET",
+    "price": 10000,
+    "effect": {
+      "satisfaction": 40,
+      "trust": 5
+    },
+    "exposureRate": 0,
+    "repeatable": false
+  },
+  {
+    "itemId": "real_luxury_bag",
+    "name": "正品名牌包",
+    "description": "正品LV手提包，提升你的品味形象。",
+    "category": "REAL_ASSET",
+    "price": 5000,
+    "effect": {
+      "satisfaction": 20,
+      "appearanceBonus": 10
+    },
+    "exposureRate": 0,
+    "repeatable": false
+  },
+  {
+    "itemId": "real_rolex",
+    "name": "真劳力士手表",
+    "description": "正品劳力士，低调奢华有内涵。",
+    "category": "REAL_ASSET",
+    "price": 8000,
+    "effect": {
+      "satisfaction": 30,
+      "appearanceBonus": 15
+    },
+    "exposureRate": 0,
+    "repeatable": false
+  },
+  {
+    "itemId": "fake_car_key",
+    "name": "A货豪车钥匙",
+    "description": "仿制的保时捷车钥匙，看起来很唬人。",
+    "category": "FAKE_PACKAGE",
+    "price": 500,
+    "effect": {
+      "satisfaction": 30
+    },
+    "exposureRate": 30,
+    "exposureDialogue": "这车钥匙怎么是塑料的？而且...这logo好像有点歪？",
+    "repeatable": false
+  },
+  {
+    "itemId": "fake_salary_slip",
+    "name": "P图工资条",
+    "description": "用PS修改过的工资条，月薪五万不是梦。",
+    "category": "FAKE_PACKAGE",
+    "price": 200,
+    "effect": {
+      "satisfaction": 20
+    },
+    "exposureRate": 50,
+    "exposureDialogue": "等等，这工资条的字体怎么和公司抬头不一样？",
+    "repeatable": false
+  },
+  {
+    "itemId": "rented_suit",
+    "name": "租来的西装",
+    "description": "从西装租赁店借来的阿玛尼，动作别太大。",
+    "category": "FAKE_PACKAGE",
+    "price": 300,
+    "effect": {
+      "appearanceBonus": 20
+    },
+    "exposureRate": 10,
+    "exposureDialogue": "你这西装...袖口怎么还有租赁标签？",
+    "repeatable": false
+  },
+  {
+    "itemId": "fake_house_deed",
+    "name": "假房本",
+    "description": "淘宝买的假房产证，仅供道具使用。",
+    "category": "FAKE_PACKAGE",
+    "price": 400,
+    "effect": {
+      "satisfaction": 35
+    },
+    "exposureRate": 40,
+    "exposureDialogue": "这房产证的纸质也太差了吧？还有这印章...怎么歪的？",
+    "repeatable": false
+  },
+  {
+    "itemId": "fake_diploma",
+    "name": "野鸡大学证书",
+    "description": "某某国际商学院MBA证书，名字很唬人。",
+    "category": "FAKE_PACKAGE",
+    "price": 350,
+    "effect": {
+      "satisfaction": 15
+    },
+    "exposureRate": 35,
+    "exposureDialogue": "这学校我搜了一下，好像...不存在？",
+    "repeatable": false
+  },
+  {
+    "itemId": "pua_book",
+    "name": "情感PUA话术书",
+    "description": "解锁特殊对话选项，但可能适得其反。",
+    "category": "SPECIAL",
+    "price": 1000,
+    "effect": {
+      "unlockOptions": ["pua_charm", "pua_gaslight"]
+    },
+    "exposureRate": 0,
+    "repeatable": false
+  },
+  {
+    "itemId": "flowers",
+    "name": "鲜花一束",
+    "description": "玫瑰花束，简单但有效。",
+    "category": "REAL_ASSET",
+    "price": 200,
+    "effect": {
+      "satisfaction": 10,
+      "trust": 5
+    },
+    "exposureRate": 0,
+    "repeatable": true
+  },
+  {
+    "itemId": "expensive_wine",
+    "name": "高档红酒",
+    "description": "82年拉菲，彰显品味。",
+    "category": "REAL_ASSET",
+    "price": 1500,
+    "effect": {
+      "satisfaction": 15
+    },
+    "exposureRate": 0,
+    "repeatable": true
+  }
+]

@@ -1,0 +1,129 @@
+{
+  "npcId": "soulmate_001",
+  "name": "陈思雨",
+  "description": "27岁，心理咨询师。看重灵魂契合，对虚假套路零容忍。",
+  "archetype": "SOULMATE",
+  "stats": {
+    "observation": 60,
+    "materialism": 20,
+    "romanticism": 85
+  },
+  "satisfactionThreshold": {
+    "initial": 55,
+    "fail": 0,
+    "success": 80
+  },
+  "topicWeights": {
+    "topic_values": 2.5,
+    "topic_hobby": 2.0,
+    "topic_deep": 2.5,
+    "topic_house": 0.3,
+    "topic_salary": 0.3,
+    "topic_family": 1.5,
+    "topic_romance": 2.0
+  },
+  "dialogueTree": {
+    "topic_values": {
+      "topicId": "topic_values",
+      "question": "你觉得人生中最重要的是什么？",
+      "options": [
+        {
+          "type": "TRUTH",
+          "text": "家人和朋友吧，有人陪伴比什么都重要。",
+          "effect": { "satisfaction": 15, "trust": 10 },
+          "riskCheck": false
+        },
+        {
+          "type": "LIE",
+          "text": "事业成功，财务自由后才能谈其他的。",
+          "effect": { "satisfaction": -10 },
+          "riskCheck": true
+        }
+      ]
+    },
+    "topic_deep": {
+      "topicId": "topic_deep",
+      "question": "你有没有什么一直想做但还没做的事？",
+      "options": [
+        {
+          "type": "TRUTH",
+          "text": "想学一门乐器，小时候一直没机会。",
+          "effect": { "satisfaction": 15, "trust": 10 },
+          "riskCheck": false
+        },
+        {
+          "type": "TRUTH",
+          "text": "想带爸妈出国旅游，他们辛苦了一辈子。",
+          "effect": { "satisfaction": 20, "trust": 15 },
+          "riskCheck": false
+        },
+        {
+          "type": "LIE",
+          "text": "买个豪车吧，男人嘛总得有点追求。",
+          "effect": { "satisfaction": -15 },
+          "riskCheck": true
+        }
+      ]
+    },
+    "topic_hobby": {
+      "topicId": "topic_hobby",
+      "question": "你平时喜欢看什么书或电影？",
+      "options": [
+        {
+          "type": "TRUTH",
+          "text": "科幻和悬疑类的，喜欢有深度的故事。",
+          "effect": { "satisfaction": 10, "trust": 5 },
+          "riskCheck": false
+        },
+        {
+          "type": "TRUTH",
+          "text": "老实说最近都在刷短视频，没什么深度。",
+          "effect": { "satisfaction": 5, "trust": 15 },
+          "riskCheck": false
+        },
+        {
+          "type": "LIE",
+          "text": "最近在读《百年孤独》，马尔克斯太棒了。",
+          "effect": { "satisfaction": 5 },
+          "riskCheck": true
+        }
+      ]
+    },
+    "topic_romance": {
+      "topicId": "topic_romance",
+      "question": "你理想中的另一半是什么样的？",
+      "options": [
+        {
+          "type": "TRUTH",
+          "text": "能聊得来，有共同话题，相互理解。",
+          "effect": { "satisfaction": 20, "trust": 10 },
+          "riskCheck": false
+        },
+        {
+          "type": "TRUTH",
+          "text": "说实话我也不太确定，可能要遇到了才知道。",
+          "effect": { "satisfaction": 10, "trust": 15 },
+          "riskCheck": false
+        }
+      ]
+    },
+    "topic_family": {
+      "topicId": "topic_family",
+      "question": "你和家人关系怎么样？",
+      "options": [
+        {
+          "type": "TRUTH",
+          "text": "挺好的，虽然有时候也会有矛盾。",
+          "effect": { "satisfaction": 10, "trust": 10 },
+          "riskCheck": false
+        },
+        {
+          "type": "TRUTH",
+          "text": "一般吧，小时候关系不太好，现在在努力修复。",
+          "effect": { "satisfaction": 15, "trust": 20 },
+          "riskCheck": false
+        }
+      ]
+    }
+  }
+}

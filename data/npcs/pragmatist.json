@@ -1,0 +1,137 @@
+{
+  "npcId": "pragmatist_001",
+  "name": "李小红",
+  "description": "28岁，银行职员。相亲目标明确，条件要求清晰。",
+  "archetype": "PRAGMATIST",
+  "stats": {
+    "observation": 40,
+    "materialism": 90,
+    "romanticism": 20
+  },
+  "satisfactionThreshold": {
+    "initial": 50,
+    "fail": 0,
+    "success": 80
+  },
+  "topicWeights": {
+    "topic_house": 2.0,
+    "topic_salary": 2.0,
+    "topic_car": 1.5,
+    "topic_hobby": 0.5,
+    "topic_family": 1.0,
+    "topic_future": 1.0
+  },
+  "dialogueTree": {
+    "topic_house": {
+      "topicId": "topic_house",
+      "question": "听说现在的房价跌了，不知道你的小区怎么样？",
+      "options": [
+        {
+          "type": "TRUTH",
+          "text": "其实我还在租房，不过一直在存钱准备买。",
+          "effect": { "satisfaction": -20, "trust": 10 },
+          "riskCheck": false
+        },
+        {
+          "type": "LIE_ITEM",
+          "text": "还行吧，我那套市中心的房子倒是挺保值的。",
+          "effect": { "satisfaction": 35 },
+          "itemRequired": "fake_house_deed",
+          "riskCheck": true
+        },
+        {
+          "type": "DEFLECT",
+          "text": "说到房子，这家店的装修风格不错，再点个甜点？",
+          "effect": { "satisfaction": 5 },
+          "riskCheck": false
+        }
+      ]
+    },
+    "topic_salary": {
+      "topicId": "topic_salary",
+      "question": "现在的年轻人压力都挺大的，你们公司待遇怎么样？",
+      "options": [
+        {
+          "type": "TRUTH",
+          "text": "一般吧，够生活。",
+          "effect": { "satisfaction": -15, "trust": 10 },
+          "riskCheck": false
+        },
+        {
+          "type": "LIE_ITEM",
+          "text": "还可以，年薪大概五六十万吧。",
+          "effect": { "satisfaction": 25 },
+          "itemRequired": "fake_salary_slip",
+          "riskCheck": true
+        },
+        {
+          "type": "LIE",
+          "text": "还不错，在行业里算中上水平。",
+          "effect": { "satisfaction": 10 },
+          "riskCheck": true
+        }
+      ]
+    },
+    "topic_car": {
+      "topicId": "topic_car",
+      "question": "你平时开车上班吗？",
+      "options": [
+        {
+          "type": "TRUTH",
+          "text": "我一般坐地铁，环保嘛。",
+          "effect": { "satisfaction": -10, "trust": 5 },
+          "riskCheck": false
+        },
+        {
+          "type": "LIE_ITEM",
+          "text": "开啊，保时捷，不过今天怕堵车就没开。",
+          "effect": { "satisfaction": 30 },
+          "itemRequired": "fake_car_key",
+          "riskCheck": true
+        },
+        {
+          "type": "DEFLECT",
+          "text": "对了，你平时有什么爱好吗？",
+          "effect": { "satisfaction": 3 },
+          "riskCheck": false
+        }
+      ]
+    },
+    "topic_family": {
+      "topicId": "topic_family",
+      "question": "你父母是做什么工作的？",
+      "options": [
+        {
+          "type": "TRUTH",
+          "text": "都是普通工人，现在退休了。",
+          "effect": { "satisfaction": -5, "trust": 10 },
+          "riskCheck": false
+        },
+        {
+          "type": "LIE",
+          "text": "我爸是公务员，我妈以前是老师。",
+          "effect": { "satisfaction": 15 },
+          "riskCheck": true
+        }
+      ]
+    },
+    "topic_future": {
+      "topicId": "topic_future",
+      "question": "你对未来有什么规划？",
+      "options": [
+        {
+          "type": "TRUTH",
+          "text": "努力工作，争取几年内买房吧。",
+          "effect": { "satisfaction": 5, "trust": 5 },
+          "riskCheck": false
+        },
+        {
+          "type": "LIE",
+          "text": "准备创业，已经在看几个项目了。",
+          "effect": { "satisfaction": 10 },
+          "riskCheck": true
+        }
+      ]
+    }
+  }
+}

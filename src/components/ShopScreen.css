@@ -1,0 +1,304 @@
+.shop-screen {
+  min-height: 100vh;
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+}
+
+.shop-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.shop-header h1 {
+  font-size: 2rem;
+  color: var(--primary);
+  margin-bottom: 10px;
+}
+
+.shop-header .subtitle {
+  color: var(--text-secondary);
+}
+
+.shop-content {
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  gap: 30px;
+  flex: 1;
+}
+
+/* 玩家面板 */
+.player-panel {
+  position: sticky;
+  top: 30px;
+  height: fit-content;
+}
+
+.player-panel h3 {
+  color: var(--primary);
+  margin-bottom: 15px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.attributes {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.attr-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.95rem;
+}
+
+.attr-row span:first-child {
+  color: var(--text-secondary);
+}
+
+.gold-section {
+  padding: 15px;
+  background: rgba(255, 215, 0, 0.1);
+  border-radius: 8px;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.gold-section .gold-display {
+  font-size: 1.3rem;
+}
+
+.inventory-section h4 {
+  color: var(--text-secondary);
+  margin-bottom: 10px;
+}
+
+.inventory-items {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.inventory-items .empty {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+
+.inv-item {
+  background: var(--secondary);
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-size: 0.85rem;
+}
+
+/* 商店物品 */
+.shop-items h3 {
+  color: var(--text-primary);
+  margin-bottom: 20px;
+}
+
+.items-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+.item-card {
+  transition: all 0.3s ease;
+}
+
+.item-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+}
+
+.item-card.owned {
+  opacity: 0.6;
+  border-color: var(--success);
+}
+
+.item-card.expensive {
+  opacity: 0.7;
+}
+
+.item-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.item-header h4 {
+  font-size: 1.1rem;
+}
+
+.item-desc {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  margin-bottom: 15px;
+  line-height: 1.5;
+}
+
+.item-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.item-stats .effect {
+  color: var(--success);
+  font-size: 0.85rem;
+}
+
+.item-stats .risk {
+  color: var(--danger);
+  font-size: 0.85rem;
+}
+
+.item-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 15px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.item-footer .btn {
+  padding: 8px 16px;
+  font-size: 0.9rem;
+}
+
+/* 底部 */
+.shop-footer {
+  text-align: center;
+  padding: 30px;
+}
+
+.shop-footer .btn {
+  font-size: 1.1rem;
+  padding: 15px 40px;
+}
+
+@media (max-width: 900px) {
+  .shop-content {
+    grid-template-columns: 1fr;
+  }
+  
+  .player-panel {
+    position: static;
+  }
+}
+
+/* ==================== 移动端竖屏适配 ==================== */
+@media (max-width: 480px) {
+  .shop-screen {
+    padding: 15px;
+  }
+  
+  .shop-header h1 {
+    font-size: 1.5rem;
+  }
+  
+  .shop-header .subtitle {
+    font-size: 0.9rem;
+  }
+  
+  .shop-content {
+    gap: 20px;
+  }
+  
+  /* 玩家面板精简 */
+  .player-panel {
+    padding: 15px;
+  }
+  
+  .player-panel h3 {
+    font-size: 1rem;
+    margin-bottom: 12px;
+  }
+  
+  .attributes {
+    gap: 6px;
+  }
+  
+  .attr-row {
+    font-size: 0.85rem;
+  }
+  
+  .gold-section {
+    padding: 12px;
+  }
+  
+  .gold-section .gold-display {
+    font-size: 1.1rem;
+  }
+  
+  /* 物品网格单列 */
+  .items-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  
+  .item-card {
+    padding: 15px;
+  }
+  
+  .item-header h4 {
+    font-size: 1rem;
+  }
+  
+  .item-desc {
+    font-size: 0.85rem;
+    margin-bottom: 10px;
+  }
+  
+  .item-stats {
+    gap: 8px;
+    margin-bottom: 10px;
+  }
+  
+  .item-stats .effect,
+  .item-stats .risk {
+    font-size: 0.8rem;
+  }
+  
+  .item-footer {
+    padding-top: 10px;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  
+  .item-footer .gold-display {
+    font-size: 1rem;
+  }
+  
+  .item-footer .btn {
+    flex: 1;
+    min-width: 80px;
+    text-align: center;
+  }
+  
+  /* 底部按钮 */
+  .shop-footer {
+    padding: 20px;
+  }
+  
+  .shop-footer .btn {
+    width: 100%;
+    font-size: 1rem;
+    padding: 12px 30px;
+  }
+  
+  /* 背包物品显示优化 */
+  .inventory-items {
+    gap: 6px;
+  }
+  
+  .inv-item {
+    font-size: 0.8rem;
+    padding: 4px 8px;
+  }
+}

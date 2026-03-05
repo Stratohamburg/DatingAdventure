@@ -1,0 +1,211 @@
+.main-menu {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  text-align: center;
+}
+
+.title-section {
+  margin-bottom: 60px;
+}
+
+.game-title {
+  font-size: 4rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, #e94560, #ff6b9d);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-shadow: 0 4px 30px rgba(233, 69, 96, 0.3);
+  margin-bottom: 10px;
+}
+
+.game-subtitle {
+  font-size: 2rem;
+  color: var(--text-secondary);
+  font-weight: 400;
+  margin-bottom: 20px;
+}
+
+.slogan {
+  font-size: 1.1rem;
+  color: var(--text-secondary);
+  font-style: italic;
+  max-width: 400px;
+}
+
+.menu-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 60px;
+}
+
+.menu-buttons .btn {
+  min-width: 200px;
+}
+
+.footer {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+
+.footer .version {
+  opacity: 0.5;
+  margin-top: 5px;
+}
+
+/* Character Select */
+.character-select h2 {
+  font-size: 2rem;
+  margin-bottom: 10px;
+}
+
+.character-select .subtitle {
+  color: var(--text-secondary);
+  margin-bottom: 40px;
+}
+
+.archetype-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+  max-width: 900px;
+  margin-bottom: 30px;
+}
+
+.archetype-card {
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: left;
+  border: 2px solid transparent;
+}
+
+.archetype-card:hover {
+  transform: translateY(-5px);
+  border-color: var(--primary);
+  box-shadow: 0 8px 30px rgba(233, 69, 96, 0.3);
+}
+
+.archetype-card h3 {
+  color: var(--primary);
+  margin-bottom: 8px;
+  font-size: 1.2rem;
+}
+
+.archetype-card p {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+
+.seed-input {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.seed-input label {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+
+.seed-input input {
+  padding: 10px 15px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--text-primary);
+  font-size: 14px;
+  width: 200px;
+  text-align: center;
+}
+
+.seed-input input::placeholder {
+  color: var(--text-secondary);
+}
+
+.seed-input input:focus {
+  outline: none;
+  border-color: var(--primary);
+}
+
+/* ==================== 移动端竖屏适配 ==================== */
+@media (max-width: 480px) {
+  .main-menu {
+    padding: 30px 15px;
+  }
+  
+  .title-section {
+    margin-bottom: 40px;
+  }
+  
+  .game-title {
+    font-size: 2.2rem;
+    line-height: 1.2;
+  }
+  
+  .game-subtitle {
+    font-size: 1.3rem;
+  }
+  
+  .slogan {
+    font-size: 0.95rem;
+    padding: 0 10px;
+  }
+  
+  .menu-buttons {
+    width: 100%;
+    padding: 0 20px;
+    margin-bottom: 40px;
+  }
+  
+  .menu-buttons .btn {
+    min-width: unset;
+    width: 100%;
+  }
+  
+  /* 角色选择 */
+  .character-select h2 {
+    font-size: 1.5rem;
+  }
+  
+  .archetype-grid {
+    grid-template-columns: 1fr;
+    gap: 15px;
+    padding: 0 10px;
+  }
+  
+  .archetype-card {
+    padding: 15px;
+  }
+  
+  .archetype-card h3 {
+    font-size: 1.1rem;
+  }
+  
+  .archetype-card p {
+    font-size: 0.85rem;
+  }
+  
+  .seed-input input {
+    width: 100%;
+    max-width: 200px;
+  }
+}
+
+/* 中等屏幕优化 (平板竖屏) */
+@media (max-width: 768px) and (min-width: 481px) {
+  .game-title {
+    font-size: 3rem;
+  }
+  
+  .archetype-grid {
+    grid-template-columns: repeat(2, 1fr);
+    max-width: 500px;
+  }
+}

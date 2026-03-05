@@ -1,0 +1,124 @@
+{
+  "npcId": "visualizer_001",
+  "name": "王美琪",
+  "description": "26岁，模特兼网红。颜值至上，只要好看什么都可以。",
+  "archetype": "VISUALIZER",
+  "stats": {
+    "observation": 30,
+    "materialism": 50,
+    "romanticism": 60
+  },
+  "satisfactionThreshold": {
+    "initial": 45,
+    "fail": 0,
+    "success": 80
+  },
+  "topicWeights": {
+    "topic_appearance": 2.5,
+    "topic_hobby": 1.5,
+    "topic_lifestyle": 2.0,
+    "topic_house": 0.5,
+    "topic_salary": 0.5,
+    "topic_romance": 1.5
+  },
+  "dialogueTree": {
+    "topic_appearance": {
+      "topicId": "topic_appearance",
+      "question": "你平时健身吗？感觉你身材保持得不错。",
+      "options": [
+        {
+          "type": "TRUTH",
+          "text": "偶尔跑跑步，主要是工作忙没时间。",
+          "effect": { "satisfaction": 5, "trust": 5 },
+          "riskCheck": false
+        },
+        {
+          "type": "LIE",
+          "text": "每周至少三次健身房，六块腹肌不是梦。",
+          "effect": { "satisfaction": 15 },
+          "riskCheck": true
+        },
+        {
+          "type": "LIE_ITEM",
+          "text": "是啊，这套西装就是为了配我的身材定制的。",
+          "effect": { "satisfaction": 20 },
+          "itemRequired": "rented_suit",
+          "riskCheck": true
+        }
+      ]
+    },
+    "topic_hobby": {
+      "topicId": "topic_hobby",
+      "question": "你平时有什么爱好？",
+      "options": [
+        {
+          "type": "TRUTH",
+          "text": "打打游戏，看看剧，比较宅。",
+          "effect": { "satisfaction": -5, "trust": 10 },
+          "riskCheck": false
+        },
+        {
+          "type": "LIE",
+          "text": "摄影、旅行、品酒，生活要有仪式感嘛。",
+          "effect": { "satisfaction": 15 },
+          "riskCheck": true
+        }
+      ]
+    },
+    "topic_lifestyle": {
+      "topicId": "topic_lifestyle",
+      "question": "你喜欢什么风格的穿搭？",
+      "options": [
+        {
+          "type": "TRUTH",
+          "text": "舒适就好，没什么特别讲究。",
+          "effect": { "satisfaction": 0, "trust": 5 },
+          "riskCheck": false
+        },
+        {
+          "type": "LIE_ITEM",
+          "text": "我比较注重品质，像这块表就是我的心头好。",
+          "effect": { "satisfaction": 25 },
+          "itemRequired": "real_rolex",
+          "riskCheck": false
+        }
+      ]
+    },
+    "topic_romance": {
+      "topicId": "topic_romance",
+      "question": "你觉得爱情中最重要的是什么？",
+      "options": [
+        {
+          "type": "TRUTH",
+          "text": "真诚和理解吧，两个人在一起开心最重要。",
+          "effect": { "satisfaction": 10, "trust": 10 },
+          "riskCheck": false
+        },
+        {
+          "type": "LIE",
+          "text": "浪漫！每个纪念日都要有惊喜。",
+          "effect": { "satisfaction": 15 },
+          "riskCheck": true
+        }
+      ]
+    },
+    "topic_house": {
+      "topicId": "topic_house",
+      "question": "你现在住哪里呀？",
+      "options": [
+        {
+          "type": "TRUTH",
+          "text": "租的房子，离公司近方便。",
+          "effect": { "satisfaction": -5, "trust": 5 },
+          "riskCheck": false
+        },
+        {
+          "type": "LIE",
+          "text": "自己的房子，虽然不大但是温馨。",
+          "effect": { "satisfaction": 10 },
+          "riskCheck": true
+        }
+      ]
+    }
+  }
+}

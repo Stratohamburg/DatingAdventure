@@ -1,0 +1,125 @@
+[
+  {
+    "eventId": "expert_detector",
+    "name": "鉴渣达人",
+    "description": "女方突然拿起你的车钥匙仔细端详...她好像很懂行的样子。",
+    "triggerWeight": 10,
+    "effectType": "EXPOSURE_MODIFIER",
+    "effectValue": 2.0,
+    "duration": "THIS_DATE",
+    "requiresChoice": false,
+    "conditions": [
+      { "type": "HAS_FAKE_ITEM", "value": true }
+    ]
+  },
+  {
+    "eventId": "acquaintance_encounter",
+    "name": "偶遇熟人",
+    "description": "咦？那边那个人好像是你的同事...他正朝这边走来！",
+    "triggerWeight": 8,
+    "effectType": "TRIGGER_EXPOSURE_CHECK",
+    "effectValue": 50,
+    "duration": "IMMEDIATE",
+    "requiresChoice": true,
+    "choices": [
+      {
+        "text": "假装没看见，低头看手机",
+        "effect": { "type": "EXPOSURE_MODIFIER", "value": 0.5 }
+      },
+      {
+        "text": "主动打招呼，希望他配合",
+        "effect": { "type": "TRIGGER_EXPOSURE_CHECK", "value": 30 }
+      }
+    ],
+    "conditions": [
+      { "type": "HAS_LIED", "value": true }
+    ]
+  },
+  {
+    "eventId": "truth_or_dare",
+    "name": "真心话大冒险",
+    "description": "女方突然提议：\"我们来玩真心话大冒险吧？我选真心话！\"轮到你了...",
+    "triggerWeight": 12,
+    "effectType": "FORCE_TRUTH",
+    "effectValue": 1,
+    "duration": "THIS_ROUND",
+    "requiresChoice": false,
+    "conditions": [
+      { "type": "ROUND_MIN", "value": 2 }
+    ]
+  },
+  {
+    "eventId": "ex_appears",
+    "name": "前任出现",
+    "description": "女方的手机突然响了，接完电话后她的情绪有些波动...",
+    "triggerWeight": 6,
+    "effectType": "SATISFACTION_MODIFIER",
+    "effectValue": -10,
+    "duration": "IMMEDIATE",
+    "requiresChoice": true,
+    "choices": [
+      {
+        "text": "关心地询问发生了什么",
+        "effect": { "type": "SATISFACTION_MODIFIER", "value": 10 }
+      },
+      {
+        "text": "假装没注意到，继续聊天",
+        "effect": { "type": "SATISFACTION_MODIFIER", "value": -5 }
+      }
+    ],
+    "conditions": []
+  },
+  {
+    "eventId": "spilled_water",
+    "name": "服务员打翻水杯",
+    "description": "服务员不小心把水洒在了桌上，场面一度有些尴尬...",
+    "triggerWeight": 15,
+    "effectType": "FREE_DEFLECT",
+    "effectValue": 1,
+    "duration": "THIS_ROUND",
+    "requiresChoice": false,
+    "conditions": []
+  },
+  {
+    "eventId": "forgot_wallet",
+    "name": "钱包忘带了",
+    "description": "糟糕！你摸了摸口袋，发现钱包好像忘在家里了...",
+    "triggerWeight": 5,
+    "effectType": "DISABLE_DEFLECT",
+    "effectValue": 1,
+    "duration": "THIS_ROUND",
+    "requiresChoice": true,
+    "choices": [
+      {
+        "text": "坦白说钱包忘带了，问能否微信转账",
+        "effect": { "type": "TRUST_MODIFIER", "value": 5 }
+      },
+      {
+        "text": "假装去洗手间，让朋友送钱过来",
+        "effect": { "type": "SATISFACTION_MODIFIER", "value": -10 }
+      }
+    ],
+    "conditions": []
+  },
+  {
+    "eventId": "phone_rings",
+    "name": "领导来电",
+    "description": "你的手机突然响了，来电显示是\"老板\"...",
+    "triggerWeight": 8,
+    "effectType": "SATISFACTION_MODIFIER",
+    "effectValue": 0,
+    "duration": "IMMEDIATE",
+    "requiresChoice": true,
+    "choices": [
+      {
+        "text": "抱歉地接听，快速处理",
+        "effect": { "type": "SATISFACTION_MODIFIER", "value": -5 }
+      },
+      {
+        "text": "直接挂掉，对她说\"你比工作重要\"",
+        "effect": { "type": "SATISFACTION_MODIFIER", "value": 10 }
+      }
+    ],
+    "conditions": []
+  }
+]
