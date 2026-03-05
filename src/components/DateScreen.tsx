@@ -2,7 +2,6 @@ import { useState, useEffect, useCallback } from 'react';
 import { useAppSelector, useAppDispatch } from '../store/hooks';
 import { selectPlayer, selectCurrentDate, selectGame } from '../store';
 import {
-  setGamePhase,
   modifySatisfaction,
   modifyTrust,
   incrementVanity,
@@ -15,14 +14,14 @@ import {
   modifyGold,
   setEnding,
 } from '../store/gameSlice';
-import { GamePhase, DialoguePhase, NPC, DialogueOption, DialogueOptionType } from '../types';
+import { DialoguePhase, DialogueOption, DialogueOptionType } from '../types';
+import { ItemCategory } from '../types/item';
 import { configLoader } from '../utils/configLoader';
 import { createPRNG } from '../utils/prng';
 import {
   selectNextTopic,
   filterAvailableOptions,
   calculateInitialSatisfaction,
-  selectRandomNPC,
   getNPCArchetypeName,
 } from '../systems/npcSystem';
 import {
@@ -47,20 +46,17 @@ function DateScreen() {
   const currentDate = useAppSelector(selectCurrentDate);
   const game = useAppSelector(selectGame);
 
-  const [npc, setNpc] = useState<NPC | null>(null);
+  const npc = currentDate.npc;
   const [currentTopic, setCurrentTopicState] = useState<any>(null);
   const [availableOptions, setAvailableOptions] = useState<DialogueOption[]>([]);
   const [message, setMessage] = useState<string>('');
   const [isProcessing, setIsProcessing] = useState(false);
   const [exposureMessage, setExposureMessage] = useState<string | null>(null);
+  const [isInitialized, setIsInitialized] = useState(false);
 
   // 初始化相亲
   useEffect(() => {
-    if (!npc) {
-      const prng = createPRNG(game.randomSeed + 1000);
-      const selectedNpc = selectRandomNPC(prng);
-      setNpc(selectedNpc);
-
+    if (npc && !isInitialized) {
       // 计算初始满意度
       const appearanceBonus = player.inventory.reduce((sum, itemId) => {
         const item = configLoader.getItemById(itemId);
@@ -68,16 +64,17 @@ function DateScreen() {
       }, 0);
 
       const initialSatisfaction = calculateInitialSatisfaction(
-        selectedNpc,
+        npc,
         player.attributes,
         appearanceBonus
       );
 
       dispatch(modifySatisfaction(initialSatisfaction - 50)); // 调整到初始值
       dispatch(setDialoguePhase(DialoguePhase.OPENING));
-      setMessage(`你与 ${selectedNpc.name} 的相亲开始了...`);
+      setMessage(`你与 ${npc.name} 的相亲开始了...`);
+      setIsInitialized(true);
     }
-  }, []);
+  }, [npc, isInitialized, dispatch, player.inventory, player.attributes]);
 
   // 进入战斗阶段后选择话题
   useEffect(() => {
@@ -96,6 +93,24 @@ function DateScreen() {
       setCurrentTopicState(topic);
       dispatch(setCurrentTopic(topic.topicId));
       const options = filterAvailableOptions(topic, player.inventory, player.usedItems);
+      
+      // 检查是否可以坦白
+      if (currentDate.currentRound === currentDate.maxRounds) {
+        const hasUsedFakeItem = player.usedItems.some(itemId => {
+          const item = configLoader.getItemById(itemId);
+          return item?.category === ItemCategory.FAKE_PACKAGE;
+        });
+        
+        if (hasUsedFakeItem) {
+          options.push({
+            type: DialogueOptionType.CONFESS,
+            text: '其实...我之前说的一些话，用的一些东西，都是假的。对不起。',
+            effect: { satisfaction: -20, trust: 30 },
+            riskCheck: false,
+          });
+        }
+      }
+      
       setAvailableOptions(options);
       setMessage(`她问道："${topic.question}"`);
     } else {
@@ -145,6 +160,10 @@ function DateScreen() {
 
     if (effect.vanityIncrease > 0) {
       dispatch(incrementVanity());
+    }
+
+    if (option.type === DialogueOptionType.CONFESS) {
+      dispatch({ type: 'game/setConfessed' });
     }
 
     if (effect.itemUsed) {
@@ -200,6 +219,11 @@ function DateScreen() {
     const newTrust = currentDate.trust + effect.trustChange +
       (wasExposed ? calculateExposureConsequences(effect.exposureRisk!).trustPenalty : 0);
 
+    const updatedHistory = {
+      ...game.history,
+      entries: [...game.history.entries, historyEntry]
+    };
+
     const gameEndCheck = checkGameEnd(
       newSatisfaction,
       newTrust,
@@ -210,29 +234,33 @@ function DateScreen() {
 
     if (gameEndCheck.isEnded) {
       await new Promise((resolve) => setTimeout(resolve, 1500));
-      handleGameEnd(gameEndCheck.isVictory!, newTrust <= 0);
+      handleGameEnd(gameEndCheck.isVictory!, newTrust <= 0, newSatisfaction, newTrust, updatedHistory);
       return;
     }
 
     // 进入下一回合
     await new Promise((resolve) => setTimeout(resolve, 1500));
+    
+    // dispatch nextRound 之前先计算下一回合数（dispatch 后 state 是异步更新的，此处仍为旧值）
+    const nextRoundNumber = currentDate.currentRound + 1;
     dispatch(nextRound());
     setCurrentTopicState(null);
     
-    // 检查是否达到最大回合
-    if (currentDate.currentRound + 1 >= currentDate.maxRounds) {
+    // 检查是否达到最大回合（使用本地计算的下一回合数而非 state 中的旧值）
+    if (nextRoundNumber >= currentDate.maxRounds) {
       dispatch(setDialoguePhase(DialoguePhase.SETTLEMENT));
-      handleGameEnd(newSatisfaction >= 80, false);
+      handleGameEnd(newSatisfaction >= 80, false, newSatisfaction, newTrust, updatedHistory);
+      return;
     }
 
     setIsProcessing(false);
   };
 
-  const handleGameEnd = (isVictory: boolean, trustZero: boolean) => {
+  const handleGameEnd = (isVictory: boolean, trustZero: boolean, finalSatisfaction: number, finalTrust: number, history: any) => {
     const stats = calculateGameStats(
-      game.history,
-      currentDate.satisfaction,
-      currentDate.trust,
+      history,
+      finalSatisfaction,
+      finalTrust,
       currentDate.vanity,
       currentDate.hasConfessed,
       player.usedItems

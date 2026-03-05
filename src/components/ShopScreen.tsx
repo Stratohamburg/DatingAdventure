@@ -1,17 +1,30 @@
+import { useEffect } from 'react';
 import { useAppSelector, useAppDispatch } from '../store/hooks';
-import { selectPlayer, selectGame } from '../store';
-import { modifyGold, addItemToInventory, setGamePhase } from '../store/gameSlice';
+import { selectPlayer, selectGame, selectCurrentDate } from '../store';
+import { modifyGold, addItemToInventory, setGamePhase, setCurrentNPC } from '../store/gameSlice';
 import { GamePhase, ItemCategory } from '../types';
 import { configLoader } from '../utils/configLoader';
 import { getStressResistanceDescription } from '../types/player';
 import { getIncomeTierDescription } from '../systems/characterGeneration';
+import { createPRNG } from '../utils/prng';
+import { selectRandomNPC, getNPCArchetypeName } from '../systems/npcSystem';
 import './ShopScreen.css';
 
 function ShopScreen() {
   const dispatch = useAppDispatch();
   const player = useAppSelector(selectPlayer);
   const game = useAppSelector(selectGame);
+  const currentDate = useAppSelector(selectCurrentDate);
   const items = configLoader.getItems();
+
+  // 在商店阶段就提前确定相亲对象
+  useEffect(() => {
+    if (!currentDate.npc) {
+      const prng = createPRNG(game.randomSeed + 1000);
+      const selectedNpc = selectRandomNPC(prng);
+      dispatch(setCurrentNPC(selectedNpc));
+    }
+  }, [currentDate.npc, dispatch, game.randomSeed]);
 
   const handleBuyItem = (itemId: string, price: number) => {
     if (player.gold >= price && !player.inventory.includes(itemId)) {
@@ -43,6 +56,21 @@ function ShopScreen() {
         <h1>准备阶段 - 商店</h1>
         <p className="subtitle">购买道具武装自己，真的假的，你自己选</p>
       </div>
+
+      {currentDate.npc && (
+        <div className="target-npc-banner card">
+          <h3>🎯 本次相亲对象情报</h3>
+          <div className="npc-info-brief">
+            <div className="npc-avatar-small"></div>
+            <div className="npc-details">
+              <span className="npc-name">{currentDate.npc.name}</span>
+              <span className="npc-type-tag">{getNPCArchetypeName(currentDate.npc.archetype)}</span>
+              <p className="npc-desc-text">{currentDate.npc.description}</p>
+            </div>
+          </div>
+          <p className="hint-text">💡 提示：根据女嘉宾的类型，购买合适的道具来包装自己吧！</p>
+        </div>
+      )}
 
       <div className="shop-content">
         {/* 玩家状态面板 */}

@@ -69,6 +69,11 @@ export const gameSlice = createSlice({
       state.gamePhase = action.payload;
     },
 
+    // 设置当前 NPC
+    setCurrentNPC: (state, action: PayloadAction<any>) => {
+      state.currentDate.npc = action.payload;
+    },
+
     // 更新满意度（带边界检查）
     modifySatisfaction: (state, action: PayloadAction<number>) => {
       const newValue = state.currentDate.satisfaction + action.payload;
@@ -163,6 +168,7 @@ export const {
   removeItemFromInventory,
   markItemAsUsed,
   setGamePhase,
+  setCurrentNPC,
   modifySatisfaction,
   modifyTrust,
   incrementVanity,

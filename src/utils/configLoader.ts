@@ -5,12 +5,11 @@ import { Ending, EndingType } from '../types/ending';
 
 // 导入静态 JSON 数据
 import itemsData from '../../data/items/items.json';
-import pragmatistData from '../../data/npcs/pragmatist.json';
-import visualizerData from '../../data/npcs/visualizer.json';
-import soulmateData from '../../data/npcs/soulmate.json';
-import goldDiggerData from '../../data/npcs/gold_digger.json';
 import eventsData from '../../data/events/events.json';
 import endingsData from '../../data/endings/endings.json';
+
+// 动态导入所有 NPC 数据
+const npcModules = import.meta.glob('../../data/npcs/*.json', { eager: true });
 
 /**
  * 解析道具数据
@@ -120,12 +119,7 @@ class ConfigLoader {
     this.items = (itemsData as any[]).map(parseItem);
 
     // 加载 NPCs
-    this.npcs = [
-      parseNPC(pragmatistData),
-      parseNPC(visualizerData),
-      parseNPC(soulmateData),
-      parseNPC(goldDiggerData),
-    ];
+    this.npcs = Object.values(npcModules).map((module: any) => parseNPC(module.default || module));
 
     // 加载事件
     this.events = (eventsData as any[]).map(parseEvent);

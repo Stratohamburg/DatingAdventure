@@ -170,6 +170,17 @@ export function calculateOptionEffect(
     case DialogueOptionType.DEFLECT:
       // 转移话题：不增加风险
       break;
+
+    case DialogueOptionType.CONFESS:
+      // 坦白：取消虚假道具效果，满意度-20，信任度+30
+      result.satisfactionChange = -20;
+      result.trustChange = 30;
+      // 如果女嘉宾浪漫值足够高，可能有额外加成
+      if (npc.stats.romanticism >= 60) {
+        result.satisfactionChange += 10;
+        result.trustChange += 20;
+      }
+      break;
   }
 
   return result;
@@ -266,6 +277,9 @@ export function createHistoryEntry(
     case DialogueOptionType.DEFLECT:
       action = 'DEFLECT';
       break;
+    case DialogueOptionType.CONFESS:
+      action = 'TRUTH'; // 坦白算作诚实
+      break;
     default:
       action = 'TRUTH';
   }
@@ -290,6 +304,7 @@ export function getOptionTypeLabel(type: DialogueOptionType): string {
     [DialogueOptionType.LIE]: '撒谎',
     [DialogueOptionType.LIE_ITEM]: '使用道具',
     [DialogueOptionType.DEFLECT]: '转移话题',
+    [DialogueOptionType.CONFESS]: '坦白',
   };
   return labels[type] || '未知';
 }
@@ -306,6 +321,8 @@ export function getOptionTypeColor(type: DialogueOptionType): string {
       return 'option-lie';
     case DialogueOptionType.DEFLECT:
       return 'option-deflect';
+    case DialogueOptionType.CONFESS:
+      return 'option-confess';
     default:
       return '';
   }

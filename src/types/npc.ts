@@ -48,6 +48,8 @@ export enum DialogueOptionType {
   LIE_ITEM = 'LIE_ITEM',
   /** 转移话题 */
   DEFLECT = 'DEFLECT',
+  /** 坦白 */
+  CONFESS = 'CONFESS',
 }
 
 /**
