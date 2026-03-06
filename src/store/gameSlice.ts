@@ -69,9 +69,11 @@ export const gameSlice = createSlice({
       state.gamePhase = action.payload;
     },
 
-    // 设置当前 NPC
+    // 设置当前 NPC，并根据 NPC 的话题数量动态设置最大回合数
     setCurrentNPC: (state, action: PayloadAction<any>) => {
       state.currentDate.npc = action.payload;
+      const topicCount = Object.keys(action.payload?.dialogueTree ?? {}).length;
+      state.currentDate.maxRounds = topicCount > 0 ? topicCount : 5;
     },
 
     // 更新满意度（带边界检查）

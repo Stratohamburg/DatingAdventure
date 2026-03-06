@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect } from 'react';
 import { useAppSelector, useAppDispatch } from '../store/hooks';
 import { selectPlayer, selectCurrentDate, selectGame } from '../store';
 import {
@@ -76,15 +76,9 @@ function DateScreen() {
     }
   }, [npc, isInitialized, dispatch, player.inventory, player.attributes]);
 
-  // 进入战斗阶段后选择话题
+  // 进入战斗阶段后选择话题（直接内联逻辑，避免 useCallback 依赖循环）
   useEffect(() => {
-    if (npc && currentDate.dialoguePhase === DialoguePhase.COMBAT && !currentTopic) {
-      selectNewTopic();
-    }
-  }, [npc, currentDate.dialoguePhase, currentTopic]);
-
-  const selectNewTopic = useCallback(() => {
-    if (!npc) return;
+    if (!npc || currentDate.dialoguePhase !== DialoguePhase.COMBAT || currentTopic) return;
 
     const prng = createPRNG(game.randomSeed + currentDate.currentRound * 100);
     const topic = selectNextTopic(prng, npc, currentDate.discussedTopics);
@@ -93,14 +87,13 @@ function DateScreen() {
       setCurrentTopicState(topic);
       dispatch(setCurrentTopic(topic.topicId));
       const options = filterAvailableOptions(topic, player.inventory, player.usedItems);
-      
-      // 检查是否可以坦白
+
+      // 最后一轮且用过假道具，允许坦白
       if (currentDate.currentRound === currentDate.maxRounds) {
         const hasUsedFakeItem = player.usedItems.some(itemId => {
           const item = configLoader.getItemById(itemId);
           return item?.category === ItemCategory.FAKE_PACKAGE;
         });
-        
         if (hasUsedFakeItem) {
           options.push({
             type: DialogueOptionType.CONFESS,
@@ -110,14 +103,26 @@ function DateScreen() {
           });
         }
       }
-      
+
       setAvailableOptions(options);
       setMessage(`她问道："${topic.question}"`);
     } else {
-      // 没有更多话题，进入结算
+      // 话题已全部讨论完，进入结算（maxRounds 已与话题数量同步，正常不会走到这里）
       dispatch(setDialoguePhase(DialoguePhase.SETTLEMENT));
+      setIsProcessing(false);
     }
-  }, [npc, game.randomSeed, currentDate.currentRound, currentDate.discussedTopics, player.inventory, player.usedItems]);
+  }, [
+    npc,
+    currentDate.dialoguePhase,
+    currentDate.currentRound,
+    currentDate.discussedTopics,
+    currentDate.maxRounds,
+    currentTopic,
+    game.randomSeed,
+    player.inventory,
+    player.usedItems,
+    dispatch,
+  ]);
 
   const handleStartCombat = () => {
     dispatch(setDialoguePhase(DialoguePhase.COMBAT));
