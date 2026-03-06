@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useAppSelector, useAppDispatch } from '../store/hooks';
 import { selectPlayer, selectCurrentDate, selectGame } from '../store';
 import {
@@ -59,6 +59,9 @@ function DateScreen() {
   const [exposureMessage, setExposureMessage] = useState<string | null>(null);
   const [isInitialized, setIsInitialized] = useState(false);
 
+  // 用 ref 记录已为哪一轮加载过话题，避免 local/Redux state 时序不同导致重复/漏触发
+  const loadedRoundRef = useRef<number>(-1);
+
   // 初始化相亲
   useEffect(() => {
     if (npc && !isInitialized) {
@@ -81,13 +84,17 @@ function DateScreen() {
     }
   }, [npc, isInitialized, dispatch, player.inventory, player.attributes]);
 
-  // 进入战斗阶段后选择话题
+  // 话题加载：以 currentRound 变化为唯一驱动，用 ref 保证每轮只加载一次
+  // 彻底消除 currentTopic/isProcessing 这两个 local state 与 Redux state 的时序竞争问题
   useEffect(() => {
-    if (!npc || currentDate.dialoguePhase !== DialoguePhase.COMBAT || currentTopic) return;
-    // isProcessing 为 true 时说明还在处理上一轮，等待它主动 setIsProcessing(false)
-    if (isProcessing) return;
+    if (!npc || currentDate.dialoguePhase !== DialoguePhase.COMBAT) return;
+    const round = currentDate.currentRound;
+    if (round <= 0) return;
+    // 已为本轮加载过话题，跳过（防止同一轮重复触发）
+    if (loadedRoundRef.current === round) return;
+    loadedRoundRef.current = round;
 
-    const prng = createPRNG(game.randomSeed + currentDate.currentRound * 100);
+    const prng = createPRNG(game.randomSeed + round * 100);
     const topic = selectNextTopic(prng, npc, currentDate.discussedTopics);
 
     if (topic) {
@@ -96,7 +103,7 @@ function DateScreen() {
       const options = filterAvailableOptions(topic, player.inventory, player.usedItems);
 
       // 最后一轮且用过假道具，允许坦白
-      if (currentDate.currentRound === currentDate.maxRounds) {
+      if (round === currentDate.maxRounds) {
         const hasUsedFakeItem = player.usedItems.some(itemId => {
           const item = configLoader.getItemById(itemId);
           return item?.category === ItemCategory.FAKE_PACKAGE;
@@ -112,6 +119,7 @@ function DateScreen() {
       }
 
       setAvailableOptions(options);
+      setExposureMessage(null);
       setMessage(`她问道："${topic.question}"`);
     } else {
       // 话题已全部讨论完，进入结算
@@ -123,8 +131,6 @@ function DateScreen() {
     currentDate.currentRound,
     currentDate.discussedTopics,
     currentDate.maxRounds,
-    currentTopic,
-    isProcessing,
     game.randomSeed,
     player.inventory,
     player.usedItems,
@@ -293,9 +299,11 @@ function DateScreen() {
       return;
     }
 
-    dispatch(nextRound());
+    // 先清理当前话题和处理状态，再推进回合
+    // nextRound dispatch 会触发 useEffect 加载新话题，必须在 setCurrentTopicState(null) 之后
     setCurrentTopicState(null);
     setIsProcessing(false);
+    dispatch(nextRound());
   };
 
   const handleGameEnd = (
