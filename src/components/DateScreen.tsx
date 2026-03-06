@@ -40,6 +40,11 @@ import {
 } from '../systems/endingSystem';
 import './DateScreen.css';
 
+// 满意度/信任度边界 clamp，与 Redux reducer 保持一致
+function clamp(value: number, min = 0, max = 100): number {
+  return Math.max(min, Math.min(max, value));
+}
+
 function DateScreen() {
   const dispatch = useAppDispatch();
   const player = useAppSelector(selectPlayer);
@@ -76,9 +81,11 @@ function DateScreen() {
     }
   }, [npc, isInitialized, dispatch, player.inventory, player.attributes]);
 
-  // 进入战斗阶段后选择话题（直接内联逻辑，避免 useCallback 依赖循环）
+  // 进入战斗阶段后选择话题
   useEffect(() => {
     if (!npc || currentDate.dialoguePhase !== DialoguePhase.COMBAT || currentTopic) return;
+    // isProcessing 为 true 时说明还在处理上一轮，等待它主动 setIsProcessing(false)
+    if (isProcessing) return;
 
     const prng = createPRNG(game.randomSeed + currentDate.currentRound * 100);
     const topic = selectNextTopic(prng, npc, currentDate.discussedTopics);
@@ -107,9 +114,8 @@ function DateScreen() {
       setAvailableOptions(options);
       setMessage(`她问道："${topic.question}"`);
     } else {
-      // 话题已全部讨论完，进入结算（maxRounds 已与话题数量同步，正常不会走到这里）
+      // 话题已全部讨论完，进入结算
       dispatch(setDialoguePhase(DialoguePhase.SETTLEMENT));
-      setIsProcessing(false);
     }
   }, [
     npc,
@@ -118,6 +124,7 @@ function DateScreen() {
     currentDate.discussedTopics,
     currentDate.maxRounds,
     currentTopic,
+    isProcessing,
     game.randomSeed,
     player.inventory,
     player.usedItems,
@@ -188,6 +195,8 @@ function DateScreen() {
 
     // 穿帮判定
     let wasExposed = false;
+    let exposureSatisfactionPenalty = 0;
+    let exposureTrustPenalty = 0;
     if (effect.shouldAddExposureRisk && effect.exposureRisk) {
       const prng = createPRNG(game.randomSeed + currentDate.currentRound * 1000);
       const result = performExposureCheck(
@@ -200,8 +209,10 @@ function DateScreen() {
       if (result.exposed) {
         wasExposed = true;
         const consequences = calculateExposureConsequences(effect.exposureRisk);
-        dispatch(modifySatisfaction(consequences.satisfactionPenalty));
-        dispatch(modifyTrust(consequences.trustPenalty));
+        exposureSatisfactionPenalty = consequences.satisfactionPenalty;
+        exposureTrustPenalty = consequences.trustPenalty;
+        dispatch(modifySatisfaction(exposureSatisfactionPenalty));
+        dispatch(modifyTrust(exposureTrustPenalty));
         setExposureMessage(result.dialogue);
       }
     }
@@ -218,17 +229,25 @@ function DateScreen() {
     );
     dispatch(addHistoryEntry(historyEntry));
 
-    // 检查游戏是否结束
-    const newSatisfaction = currentDate.satisfaction + effect.satisfactionChange +
-      (wasExposed ? calculateExposureConsequences(effect.exposureRisk!).satisfactionPenalty : 0);
-    const newTrust = currentDate.trust + effect.trustChange +
-      (wasExposed ? calculateExposureConsequences(effect.exposureRisk!).trustPenalty : 0);
+    // 使用 clamp 计算结算后的真实数值（与 Redux reducer 保持一致）
+    const newSatisfaction = clamp(
+      currentDate.satisfaction + effect.satisfactionChange + exposureSatisfactionPenalty
+    );
+    const newTrust = clamp(
+      currentDate.trust + effect.trustChange + exposureTrustPenalty
+    );
 
+    // 构建包含本轮记录的历史
     const updatedHistory = {
       ...game.history,
-      entries: [...game.history.entries, historyEntry]
+      entries: [...game.history.entries, historyEntry],
     };
 
+    // 当前 vanity/hasConfessed 状态（dispatch 后 state 异步更新，本地手动跟踪）
+    const currentVanity = currentDate.vanity + (effect.vanityIncrease > 0 ? 1 : 0);
+    const currentHasConfessed = currentDate.hasConfessed || option.type === DialogueOptionType.CONFESS;
+
+    // 检查游戏是否结束（满意度/信任度归零，或到达最后一轮）
     const gameEndCheck = checkGameEnd(
       newSatisfaction,
       newTrust,
@@ -239,36 +258,63 @@ function DateScreen() {
 
     if (gameEndCheck.isEnded) {
       await new Promise((resolve) => setTimeout(resolve, 1500));
-      handleGameEnd(gameEndCheck.isVictory!, newTrust <= 0, newSatisfaction, newTrust, updatedHistory);
+      handleGameEnd(
+        gameEndCheck.isVictory!,
+        newTrust <= 0,
+        newSatisfaction,
+        newTrust,
+        updatedHistory,
+        currentVanity,
+        currentHasConfessed,
+        player.usedItems
+      );
       return;
     }
 
     // 进入下一回合
     await new Promise((resolve) => setTimeout(resolve, 1500));
-    
-    // dispatch nextRound 之前先计算下一回合数（dispatch 后 state 是异步更新的，此处仍为旧值）
+
     const nextRoundNumber = currentDate.currentRound + 1;
-    dispatch(nextRound());
-    setCurrentTopicState(null);
-    
-    // 检查是否达到最大回合（使用本地计算的下一回合数而非 state 中的旧值）
+
+    // 检查是否达到最大回合
     if (nextRoundNumber >= currentDate.maxRounds) {
+      dispatch(nextRound());
       dispatch(setDialoguePhase(DialoguePhase.SETTLEMENT));
-      handleGameEnd(newSatisfaction >= 80, false, newSatisfaction, newTrust, updatedHistory);
+      handleGameEnd(
+        newSatisfaction >= 80,
+        false,
+        newSatisfaction,
+        newTrust,
+        updatedHistory,
+        currentVanity,
+        currentHasConfessed,
+        player.usedItems
+      );
       return;
     }
 
+    dispatch(nextRound());
+    setCurrentTopicState(null);
     setIsProcessing(false);
   };
 
-  const handleGameEnd = (isVictory: boolean, trustZero: boolean, finalSatisfaction: number, finalTrust: number, history: any) => {
+  const handleGameEnd = (
+    isVictory: boolean,
+    trustZero: boolean,
+    finalSatisfaction: number,
+    finalTrust: number,
+    history: any,
+    vanity: number,
+    hasConfessed: boolean,
+    usedItems: string[]
+  ) => {
     const stats = calculateGameStats(
       history,
       finalSatisfaction,
       finalTrust,
-      currentDate.vanity,
-      currentDate.hasConfessed,
-      player.usedItems
+      vanity,
+      hasConfessed,
+      usedItems
     );
 
     const endingType = determineEndingType(isVictory, stats, trustZero);
@@ -295,7 +341,7 @@ function DateScreen() {
       <div className="date-main">
         {/* 左侧：NPC信息 */}
         <div className="npc-panel card">
-          <div className="npc-avatar">�</div>
+          <div className="npc-avatar">💁‍♀️</div>
           <h2>{npc.name}</h2>
           <span className="npc-type">{getNPCArchetypeName(npc.archetype)}</span>
           <p className="npc-desc">{npc.description}</p>
