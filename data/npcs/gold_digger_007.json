@@ -14,11 +14,18 @@
     "success": 95
   },
   "topicWeights": {
-    "topic_entertainment_resources": 3.0,
+    "topic_entertainment_resources": 3,
     "topic_luxury_car": 2.5,
     "topic_mansion": 2.5,
     "topic_hobby": 0.5,
-    "topic_family": 0.5
+    "topic_family": 0.5,
+    "topic_investment": 1.5,
+    "topic_shopping": 1.9,
+    "topic_fine_dining": 1.1,
+    "topic_vacation": 1.1,
+    "topic_social_circle": 1.6,
+    "topic_pets": 1,
+    "topic_travel": 1.3
   },
   "dialogueTree": {
     "topic_entertainment_resources": {
@@ -29,8 +36,8 @@
           "type": "TRUTH",
           "text": "我不认识，我只是个普通人。",
           "effect": {
-            "satisfaction": -40,
-            "trust": 20
+            "satisfaction": -35,
+            "trust": 25
           },
           "riskCheck": false
         },
@@ -38,7 +45,8 @@
           "type": "LIE_ITEM",
           "text": "我认识很多大导演，这是我和张导的合影。",
           "effect": {
-            "satisfaction": 50
+            "satisfaction": 40,
+            "trust": 10
           },
           "itemRequired": "fake_director_photo",
           "riskCheck": true
@@ -47,7 +55,8 @@
           "type": "DEFLECT",
           "text": "你平时拍戏一定很辛苦吧？",
           "effect": {
-            "satisfaction": 5
+            "satisfaction": 5,
+            "trust": 0
           },
           "riskCheck": false
         }
@@ -61,8 +70,8 @@
           "type": "TRUTH",
           "text": "我平时不开车，一般打车或者坐地铁。",
           "effect": {
-            "satisfaction": -35,
-            "trust": 15
+            "satisfaction": -30,
+            "trust": 20
           },
           "riskCheck": false
         },
@@ -70,7 +79,8 @@
           "type": "LIE_ITEM",
           "text": "我开劳斯莱斯，这是车钥匙。",
           "effect": {
-            "satisfaction": 45
+            "satisfaction": 40,
+            "trust": 10
           },
           "itemRequired": "fake_rolls_royce_key",
           "riskCheck": true
@@ -85,8 +95,8 @@
           "type": "TRUTH",
           "text": "我不住别墅，我住在普通的公寓里。",
           "effect": {
-            "satisfaction": -30,
-            "trust": 15
+            "satisfaction": -25,
+            "trust": 20
           },
           "riskCheck": false
         },
@@ -94,9 +104,178 @@
           "type": "LIE_ITEM",
           "text": "我住在汤臣一品，这是我的房产证。",
           "effect": {
-            "satisfaction": 55
+            "satisfaction": 40,
+            "trust": 10
           },
           "itemRequired": "fake_mansion_deed",
+          "riskCheck": true
+        }
+      ]
+    },
+    "topic_investment": {
+      "topicId": "topic_investment",
+      "question": "你平时有做些什么投资理财吗？",
+      "options": [
+        {
+          "type": "TRUTH",
+          "text": "主要买点稳健的基金，收益不高但安全。",
+          "effect": {
+            "satisfaction": -5,
+            "trust": 15
+          },
+          "riskCheck": false
+        },
+        {
+          "type": "LIE",
+          "text": "我在股市里有几百万的盘子，收益还不错。",
+          "effect": {
+            "satisfaction": 25,
+            "trust": -5
+          },
+          "riskCheck": true
+        }
+      ]
+    },
+    "topic_shopping": {
+      "topicId": "topic_shopping",
+      "question": "周末一般去哪里逛街？",
+      "options": [
+        {
+          "type": "TRUTH",
+          "text": "就在家附近的商场随便逛逛。",
+          "effect": {
+            "satisfaction": -10,
+            "trust": 15
+          },
+          "riskCheck": false
+        },
+        {
+          "type": "LIE",
+          "text": "经常去SKP或者恒隆，那里的服务比较好。",
+          "effect": {
+            "satisfaction": 25,
+            "trust": -5
+          },
+          "riskCheck": true
+        }
+      ]
+    },
+    "topic_fine_dining": {
+      "topicId": "topic_fine_dining",
+      "question": "你对吃有什么讲究吗？",
+      "options": [
+        {
+          "type": "TRUTH",
+          "text": "能吃饱就行，偶尔吃顿好的犒劳自己。",
+          "effect": {
+            "satisfaction": -15,
+            "trust": 15
+          },
+          "riskCheck": false
+        },
+        {
+          "type": "LIE",
+          "text": "我比较喜欢米其林餐厅，对食材要求比较高。",
+          "effect": {
+            "satisfaction": 20,
+            "trust": -5
+          },
+          "riskCheck": true
+        }
+      ]
+    },
+    "topic_vacation": {
+      "topicId": "topic_vacation",
+      "question": "放长假一般去哪里玩？",
+      "options": [
+        {
+          "type": "TRUTH",
+          "text": "回老家陪陪父母，或者在周边转转。",
+          "effect": {
+            "satisfaction": -5,
+            "trust": 15
+          },
+          "riskCheck": false
+        },
+        {
+          "type": "LIE",
+          "text": "去马尔代夫或者欧洲度个假，放松一下。",
+          "effect": {
+            "satisfaction": 25,
+            "trust": -5
+          },
+          "riskCheck": true
+        }
+      ]
+    },
+    "topic_social_circle": {
+      "topicId": "topic_social_circle",
+      "question": "你身边的朋友都是做什么的？",
+      "options": [
+        {
+          "type": "TRUTH",
+          "text": "都是些普通的上班族，大家平时聚聚挺开心的。",
+          "effect": {
+            "satisfaction": -10,
+            "trust": 15
+          },
+          "riskCheck": false
+        },
+        {
+          "type": "LIE",
+          "text": "大多是些企业高管和创业老板，圈子很重要。",
+          "effect": {
+            "satisfaction": 25,
+            "trust": -5
+          },
+          "riskCheck": true
+        }
+      ]
+    },
+    "topic_pets": {
+      "topicId": "topic_pets",
+      "question": "你喜欢养宠物吗？我最近在看纯种的布偶猫。",
+      "options": [
+        {
+          "type": "TRUTH",
+          "text": "我养了一只中华田园猫，很可爱。",
+          "effect": {
+            "satisfaction": -10,
+            "trust": 15
+          },
+          "riskCheck": false
+        },
+        {
+          "type": "LIE",
+          "text": "我比较喜欢赛级犬，准备入手一只柯基。",
+          "effect": {
+            "satisfaction": 20,
+            "trust": -5
+          },
+          "riskCheck": true
+        }
+      ]
+    },
+    "topic_travel": {
+      "topicId": "topic_travel",
+      "question": "你平时出国玩一般坐什么舱？",
+      "options": [
+        {
+          "type": "TRUTH",
+          "text": "经济舱啊，省下来的钱可以多玩几个地方。",
+          "effect": {
+            "satisfaction": -20,
+            "trust": 15
+          },
+          "riskCheck": false
+        },
+        {
+          "type": "LIE",
+          "text": "肯定是头等舱或者商务舱，长途太累了。",
+          "effect": {
+            "satisfaction": 25,
+            "trust": -5
+          },
           "riskCheck": true
         }
       ]

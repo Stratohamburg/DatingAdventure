@@ -14,11 +14,16 @@
     "success": 85
   },
   "topicWeights": {
-    "topic_music": 3.0,
+    "topic_music": 3,
     "topic_freedom": 2.5,
-    "topic_art": 2.0,
+    "topic_art": 2,
     "topic_salary": 0.1,
-    "topic_house": 0.1
+    "topic_house": 0.1,
+    "topic_childhood": 1.3,
+    "topic_dreams": 1.7,
+    "topic_philosophy": 0.8,
+    "topic_movies": 0.6,
+    "topic_pets": 1.8
   },
   "dialogueTree": {
     "topic_music": {
@@ -29,8 +34,8 @@
           "type": "TRUTH",
           "text": "我平时很少听乐队，一般听流行歌曲。",
           "effect": {
-            "satisfaction": -15,
-            "trust": 20
+            "satisfaction": -10,
+            "trust": 25
           },
           "riskCheck": false
         },
@@ -38,7 +43,8 @@
           "type": "LIE_ITEM",
           "text": "我最喜欢披头士，这是我收藏的他们的绝版黑胶。",
           "effect": {
-            "satisfaction": 35
+            "satisfaction": 35,
+            "trust": 10
           },
           "itemRequired": "fake_beatles_vinyl",
           "riskCheck": true
@@ -47,7 +53,8 @@
           "type": "DEFLECT",
           "text": "你平时创作音乐的灵感都来自哪里？",
           "effect": {
-            "satisfaction": 15
+            "satisfaction": 5,
+            "trust": 0
           },
           "riskCheck": false
         }
@@ -61,8 +68,8 @@
           "type": "TRUTH",
           "text": "我觉得是财务自由，想买什么就买什么。",
           "effect": {
-            "satisfaction": -10,
-            "trust": 15
+            "satisfaction": -5,
+            "trust": 20
           },
           "riskCheck": false
         },
@@ -70,7 +77,8 @@
           "type": "LIE",
           "text": "我觉得是内心的自由，不受世俗的束缚。",
           "effect": {
-            "satisfaction": 25
+            "satisfaction": 25,
+            "trust": -5
           },
           "riskCheck": true
         }
@@ -85,7 +93,7 @@
           "text": "我平时很少看展，不太懂艺术。",
           "effect": {
             "satisfaction": -5,
-            "trust": 15
+            "trust": 20
           },
           "riskCheck": false
         },
@@ -93,9 +101,139 @@
           "type": "LIE_ITEM",
           "text": "我喜欢看现代艺术展，这是我之前看展的门票。",
           "effect": {
-            "satisfaction": 30
+            "satisfaction": 30,
+            "trust": 10
           },
           "itemRequired": "fake_art_exhibition_ticket",
+          "riskCheck": true
+        }
+      ]
+    },
+    "topic_childhood": {
+      "topicId": "topic_childhood",
+      "question": "你的童年过得开心吗？",
+      "options": [
+        {
+          "type": "TRUTH",
+          "text": "挺普通的，和大多数人一样。",
+          "effect": {
+            "satisfaction": 5,
+            "trust": 15
+          },
+          "riskCheck": false
+        },
+        {
+          "type": "TRUTH",
+          "text": "其实有些遗憾，所以现在更想好好生活。",
+          "effect": {
+            "satisfaction": 20,
+            "trust": 20
+          },
+          "riskCheck": false
+        }
+      ]
+    },
+    "topic_dreams": {
+      "topicId": "topic_dreams",
+      "question": "你小时候的梦想是什么？现在实现了吗？",
+      "options": [
+        {
+          "type": "TRUTH",
+          "text": "想当科学家，现在嘛，就是个普通打工人。",
+          "effect": {
+            "satisfaction": 10,
+            "trust": 15
+          },
+          "riskCheck": false
+        },
+        {
+          "type": "LIE",
+          "text": "想环游世界，现在正在一步步实现中。",
+          "effect": {
+            "satisfaction": 15,
+            "trust": -5
+          },
+          "riskCheck": true
+        }
+      ]
+    },
+    "topic_philosophy": {
+      "topicId": "topic_philosophy",
+      "question": "你相信命运吗？",
+      "options": [
+        {
+          "type": "TRUTH",
+          "text": "不太信，我觉得事在人为。",
+          "effect": {
+            "satisfaction": 10,
+            "trust": 15
+          },
+          "riskCheck": false
+        },
+        {
+          "type": "TRUTH",
+          "text": "有时候会信，比如今天能遇到你。",
+          "effect": {
+            "satisfaction": 25,
+            "trust": 15
+          },
+          "riskCheck": false
+        }
+      ]
+    },
+    "topic_movies": {
+      "topicId": "topic_movies",
+      "question": "你最近有看什么触动你的电影吗？",
+      "options": [
+        {
+          "type": "TRUTH",
+          "text": "最近都在看爆米花喜剧，放松一下大脑。",
+          "effect": {
+            "satisfaction": -5,
+            "trust": 15
+          },
+          "riskCheck": false
+        },
+        {
+          "type": "TRUTH",
+          "text": "重温了《星际穿越》，关于爱能超越维度的设定很感人。",
+          "effect": {
+            "satisfaction": 25,
+            "trust": 15
+          },
+          "riskCheck": false
+        },
+        {
+          "type": "LIE",
+          "text": "看了一些欧洲的小众文艺片，探讨人性的那种。",
+          "effect": {
+            "satisfaction": 15,
+            "trust": -5
+          },
+          "riskCheck": true
+        }
+      ]
+    },
+    "topic_pets": {
+      "topicId": "topic_pets",
+      "question": "你觉得小动物能给人带来什么？",
+      "options": [
+        {
+          "type": "TRUTH",
+          "text": "就是个伴儿吧，无聊的时候可以逗逗。",
+          "effect": {
+            "satisfaction": 5,
+            "trust": 15
+          },
+          "riskCheck": false
+        },
+        {
+          "type": "LIE",
+          "text": "它们是纯粹的灵魂，能治愈我们内心的孤独。",
+          "effect": {
+            "satisfaction": 25,
+            "trust": -5
+          },
           "riskCheck": true
         }
       ]

@@ -73,7 +73,10 @@ export const gameSlice = createSlice({
     setCurrentNPC: (state, action: PayloadAction<any>) => {
       state.currentDate.npc = action.payload;
       const topicCount = Object.keys(action.payload?.dialogueTree ?? {}).length;
-      state.currentDate.maxRounds = topicCount > 0 ? topicCount : 5;
+      // 限制对话轮数在 5-10 轮之间
+      state.currentDate.maxRounds = topicCount > 0
+        ? Math.max(5, Math.min(10, topicCount))
+        : 5;
     },
 
     // 更新满意度（带边界检查）

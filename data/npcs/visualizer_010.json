@@ -14,11 +14,18 @@
     "success": 80
   },
   "topicWeights": {
-    "topic_acg": 3.0,
+    "topic_acg": 3,
     "topic_cosplay": 2.5,
-    "topic_appearance": 2.0,
+    "topic_appearance": 2,
     "topic_salary": 0.5,
-    "topic_house": 0.5
+    "topic_house": 0.5,
+    "topic_skincare": 0.7,
+    "topic_fashion": 1,
+    "topic_fitness": 1.7,
+    "topic_photography": 0.7,
+    "topic_aesthetics": 0.6,
+    "topic_sports": 1.2,
+    "topic_cooking": 0.6
   },
   "dialogueTree": {
     "topic_acg": {
@@ -29,8 +36,8 @@
           "type": "TRUTH",
           "text": "我平时很少看动漫，不太了解二次元。",
           "effect": {
-            "satisfaction": -20,
-            "trust": 15
+            "satisfaction": -15,
+            "trust": 20
           },
           "riskCheck": false
         },
@@ -38,7 +45,8 @@
           "type": "LIE_ITEM",
           "text": "我非常喜欢看动漫，这是我收藏的绝版手办。",
           "effect": {
-            "satisfaction": 35
+            "satisfaction": 35,
+            "trust": 10
           },
           "itemRequired": "fake_limited_figure",
           "riskCheck": true
@@ -47,7 +55,8 @@
           "type": "DEFLECT",
           "text": "你今天出的这个角色真好看，是哪部番里的？",
           "effect": {
-            "satisfaction": 20
+            "satisfaction": 5,
+            "trust": 0
           },
           "riskCheck": false
         }
@@ -61,8 +70,8 @@
           "type": "TRUTH",
           "text": "我觉得我不太适合，我放不开。",
           "effect": {
-            "satisfaction": -15,
-            "trust": 10
+            "satisfaction": -10,
+            "trust": 15
           },
           "riskCheck": false
         },
@@ -70,7 +79,8 @@
           "type": "LIE",
           "text": "我非常愿意，我觉得出Cos很有意思。",
           "effect": {
-            "satisfaction": 25
+            "satisfaction": 25,
+            "trust": -5
           },
           "riskCheck": true
         }
@@ -84,8 +94,8 @@
           "type": "TRUTH",
           "text": "我觉得我长得很普通，就及格分吧。",
           "effect": {
-            "satisfaction": -10,
-            "trust": 10
+            "satisfaction": -5,
+            "trust": 15
           },
           "riskCheck": false
         },
@@ -93,9 +103,178 @@
           "type": "LIE_ITEM",
           "text": "我觉得我长得还不错，这是我之前拍的写真集。",
           "effect": {
-            "satisfaction": 30
+            "satisfaction": 30,
+            "trust": 10
           },
           "itemRequired": "fake_photo_album",
+          "riskCheck": true
+        }
+      ]
+    },
+    "topic_skincare": {
+      "topicId": "topic_skincare",
+      "question": "你平时会护肤吗？皮肤看起来不错。",
+      "options": [
+        {
+          "type": "TRUTH",
+          "text": "随便洗洗脸，没怎么特别保养。",
+          "effect": {
+            "satisfaction": -5,
+            "trust": 15
+          },
+          "riskCheck": false
+        },
+        {
+          "type": "LIE",
+          "text": "每天都会认真护肤，还会定期去做医美。",
+          "effect": {
+            "satisfaction": 20,
+            "trust": -5
+          },
+          "riskCheck": true
+        }
+      ]
+    },
+    "topic_fashion": {
+      "topicId": "topic_fashion",
+      "question": "你对时尚有什么看法？",
+      "options": [
+        {
+          "type": "TRUTH",
+          "text": "不太懂，穿着舒服最重要。",
+          "effect": {
+            "satisfaction": -5,
+            "trust": 15
+          },
+          "riskCheck": false
+        },
+        {
+          "type": "LIE",
+          "text": "时尚是一种生活态度，我每季都会关注大牌走秀。",
+          "effect": {
+            "satisfaction": 25,
+            "trust": -5
+          },
+          "riskCheck": true
+        }
+      ]
+    },
+    "topic_fitness": {
+      "topicId": "topic_fitness",
+      "question": "你觉得身材管理重要吗？",
+      "options": [
+        {
+          "type": "TRUTH",
+          "text": "健康就好，没必要太苛求。",
+          "effect": {
+            "satisfaction": -5,
+            "trust": 15
+          },
+          "riskCheck": false
+        },
+        {
+          "type": "LIE",
+          "text": "非常重要，这是自律的表现。",
+          "effect": {
+            "satisfaction": 20,
+            "trust": -5
+          },
+          "riskCheck": true
+        }
+      ]
+    },
+    "topic_photography": {
+      "topicId": "topic_photography",
+      "question": "你平时喜欢拍照吗？",
+      "options": [
+        {
+          "type": "TRUTH",
+          "text": "不太喜欢，我比较不上相。",
+          "effect": {
+            "satisfaction": -5,
+            "trust": 15
+          },
+          "riskCheck": false
+        },
+        {
+          "type": "LIE",
+          "text": "很喜欢，我还专门学过摄影，下次给你拍。",
+          "effect": {
+            "satisfaction": 25,
+            "trust": -5
+          },
+          "riskCheck": true
+        }
+      ]
+    },
+    "topic_aesthetics": {
+      "topicId": "topic_aesthetics",
+      "question": "你觉得什么样的长相最吸引你？",
+      "options": [
+        {
+          "type": "TRUTH",
+          "text": "看着顺眼就行，主要看性格。",
+          "effect": {
+            "satisfaction": -5,
+            "trust": 15
+          },
+          "riskCheck": false
+        },
+        {
+          "type": "LIE",
+          "text": "像你这样精致又好看的，最吸引我。",
+          "effect": {
+            "satisfaction": 25,
+            "trust": -5
+          },
+          "riskCheck": true
+        }
+      ]
+    },
+    "topic_sports": {
+      "topicId": "topic_sports",
+      "question": "你平时喜欢什么运动？",
+      "options": [
+        {
+          "type": "TRUTH",
+          "text": "偶尔打打羽毛球，或者散散步。",
+          "effect": {
+            "satisfaction": -5,
+            "trust": 15
+          },
+          "riskCheck": false
+        },
+        {
+          "type": "LIE",
+          "text": "我喜欢冲浪和滑雪，比较刺激，拍照也好看。",
+          "effect": {
+            "satisfaction": 25,
+            "trust": -5
+          },
+          "riskCheck": true
+        }
+      ]
+    },
+    "topic_cooking": {
+      "topicId": "topic_cooking",
+      "question": "你会做饭吗？",
+      "options": [
+        {
+          "type": "TRUTH",
+          "text": "会做一些家常菜，味道还行。",
+          "effect": {
+            "satisfaction": 5,
+            "trust": 15
+          },
+          "riskCheck": false
+        },
+        {
+          "type": "LIE",
+          "text": "我会做精致的西餐和甜点，摆盘很好看的那种。",
+          "effect": {
+            "satisfaction": 20,
+            "trust": -5
+          },
           "riskCheck": true
         }
       ]

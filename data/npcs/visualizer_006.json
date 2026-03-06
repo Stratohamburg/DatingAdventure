@@ -14,11 +14,16 @@
     "success": 80
   },
   "topicWeights": {
-    "topic_fitness": 3.0,
+    "topic_fitness": 3,
     "topic_diet": 2.5,
-    "topic_sports": 2.0,
+    "topic_sports": 2,
     "topic_salary": 0.5,
-    "topic_house": 0.5
+    "topic_house": 0.5,
+    "topic_skincare": 2,
+    "topic_fashion": 1.3,
+    "topic_photography": 1.9,
+    "topic_aesthetics": 1,
+    "topic_cooking": 1.1
   },
   "dialogueTree": {
     "topic_fitness": {
@@ -29,8 +34,8 @@
           "type": "TRUTH",
           "text": "我平时很少去健身房，一般在家里做做拉伸。",
           "effect": {
-            "satisfaction": -15,
-            "trust": 15
+            "satisfaction": -10,
+            "trust": 20
           },
           "riskCheck": false
         },
@@ -38,7 +43,8 @@
           "type": "LIE_ITEM",
           "text": "我一周去五次，这是我的高级会员卡。",
           "effect": {
-            "satisfaction": 35
+            "satisfaction": 35,
+            "trust": 10
           },
           "itemRequired": "fake_premium_gym_card",
           "riskCheck": true
@@ -47,7 +53,8 @@
           "type": "DEFLECT",
           "text": "你身材这么好，平时是怎么训练的？",
           "effect": {
-            "satisfaction": 20
+            "satisfaction": 5,
+            "trust": 0
           },
           "riskCheck": false
         }
@@ -61,8 +68,8 @@
           "type": "TRUTH",
           "text": "我平时比较喜欢吃重口味的食物，不太忌口。",
           "effect": {
-            "satisfaction": -10,
-            "trust": 10
+            "satisfaction": -5,
+            "trust": 15
           },
           "riskCheck": false
         },
@@ -70,7 +77,8 @@
           "type": "LIE",
           "text": "我平时吃得很健康，主要是高蛋白低脂肪的食物。",
           "effect": {
-            "satisfaction": 25
+            "satisfaction": 25,
+            "trust": -5
           },
           "riskCheck": true
         }
@@ -85,7 +93,7 @@
           "text": "我比较喜欢散步或者慢跑。",
           "effect": {
             "satisfaction": -5,
-            "trust": 10
+            "trust": 15
           },
           "riskCheck": false
         },
@@ -93,9 +101,130 @@
           "type": "LIE_ITEM",
           "text": "我最喜欢冲浪，这是我之前去夏威夷冲浪的照片。",
           "effect": {
-            "satisfaction": 40
+            "satisfaction": 40,
+            "trust": 10
           },
           "itemRequired": "fake_surfing_photo",
+          "riskCheck": true
+        }
+      ]
+    },
+    "topic_skincare": {
+      "topicId": "topic_skincare",
+      "question": "你平时会护肤吗？皮肤看起来不错。",
+      "options": [
+        {
+          "type": "TRUTH",
+          "text": "随便洗洗脸，没怎么特别保养。",
+          "effect": {
+            "satisfaction": -5,
+            "trust": 15
+          },
+          "riskCheck": false
+        },
+        {
+          "type": "LIE",
+          "text": "每天都会认真护肤，还会定期去做医美。",
+          "effect": {
+            "satisfaction": 20,
+            "trust": -5
+          },
+          "riskCheck": true
+        }
+      ]
+    },
+    "topic_fashion": {
+      "topicId": "topic_fashion",
+      "question": "你对时尚有什么看法？",
+      "options": [
+        {
+          "type": "TRUTH",
+          "text": "不太懂，穿着舒服最重要。",
+          "effect": {
+            "satisfaction": -5,
+            "trust": 15
+          },
+          "riskCheck": false
+        },
+        {
+          "type": "LIE",
+          "text": "时尚是一种生活态度，我每季都会关注大牌走秀。",
+          "effect": {
+            "satisfaction": 25,
+            "trust": -5
+          },
+          "riskCheck": true
+        }
+      ]
+    },
+    "topic_photography": {
+      "topicId": "topic_photography",
+      "question": "你平时喜欢拍照吗？",
+      "options": [
+        {
+          "type": "TRUTH",
+          "text": "不太喜欢，我比较不上相。",
+          "effect": {
+            "satisfaction": -5,
+            "trust": 15
+          },
+          "riskCheck": false
+        },
+        {
+          "type": "LIE",
+          "text": "很喜欢，我还专门学过摄影，下次给你拍。",
+          "effect": {
+            "satisfaction": 25,
+            "trust": -5
+          },
+          "riskCheck": true
+        }
+      ]
+    },
+    "topic_aesthetics": {
+      "topicId": "topic_aesthetics",
+      "question": "你觉得什么样的长相最吸引你？",
+      "options": [
+        {
+          "type": "TRUTH",
+          "text": "看着顺眼就行，主要看性格。",
+          "effect": {
+            "satisfaction": -5,
+            "trust": 15
+          },
+          "riskCheck": false
+        },
+        {
+          "type": "LIE",
+          "text": "像你这样精致又好看的，最吸引我。",
+          "effect": {
+            "satisfaction": 25,
+            "trust": -5
+          },
+          "riskCheck": true
+        }
+      ]
+    },
+    "topic_cooking": {
+      "topicId": "topic_cooking",
+      "question": "你会做饭吗？",
+      "options": [
+        {
+          "type": "TRUTH",
+          "text": "会做一些家常菜，味道还行。",
+          "effect": {
+            "satisfaction": 5,
+            "trust": 15
+          },
+          "riskCheck": false
+        },
+        {
+          "type": "LIE",
+          "text": "我会做精致的西餐和甜点，摆盘很好看的那种。",
+          "effect": {
+            "satisfaction": 20,
+            "trust": -5
+          },
           "riskCheck": true
         }
       ]

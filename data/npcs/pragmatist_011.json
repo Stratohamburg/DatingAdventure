@@ -14,11 +14,18 @@
     "success": 80
   },
   "topicWeights": {
-    "topic_mother": 3.0,
+    "topic_mother": 3,
     "topic_housework": 2.5,
     "topic_fertility": 2.5,
-    "topic_salary": 1.0,
-    "topic_hobby": 0.5
+    "topic_salary": 1,
+    "topic_hobby": 0.5,
+    "topic_savings": 1,
+    "topic_career_plan": 0.9,
+    "topic_health": 1.5,
+    "topic_education": 1.8,
+    "topic_parents_pension": 1.2,
+    "topic_cooking": 1.8,
+    "topic_work_life": 1.5
   },
   "dialogueTree": {
     "topic_mother": {
@@ -29,8 +36,8 @@
           "type": "TRUTH",
           "text": "我不太同意，我觉得年轻人应该有自己的独立空间。",
           "effect": {
-            "satisfaction": -25,
-            "trust": 15
+            "satisfaction": -20,
+            "trust": 20
           },
           "riskCheck": false
         },
@@ -38,7 +45,8 @@
           "type": "LIE",
           "text": "我完全同意，我觉得和长辈住在一起可以互相照顾，挺好的。",
           "effect": {
-            "satisfaction": 30
+            "satisfaction": 25,
+            "trust": -5
           },
           "riskCheck": true
         },
@@ -46,7 +54,8 @@
           "type": "DEFLECT",
           "text": "你平时和你妈关系一定很好吧？",
           "effect": {
-            "satisfaction": 10
+            "satisfaction": 5,
+            "trust": 0
           },
           "riskCheck": false
         }
@@ -60,8 +69,8 @@
           "type": "TRUTH",
           "text": "我不太会做饭，我觉得家务应该两个人一起分担。",
           "effect": {
-            "satisfaction": -20,
-            "trust": 10
+            "satisfaction": -15,
+            "trust": 15
           },
           "riskCheck": false
         },
@@ -69,7 +78,8 @@
           "type": "LIE_ITEM",
           "text": "我非常会做饭，这是我考的高级厨师证。",
           "effect": {
-            "satisfaction": 35
+            "satisfaction": 35,
+            "trust": 10
           },
           "itemRequired": "fake_chef_cert",
           "riskCheck": true
@@ -84,8 +94,8 @@
           "type": "TRUTH",
           "text": "我觉得生男生女都一样，顺其自然吧。",
           "effect": {
-            "satisfaction": -30,
-            "trust": 10
+            "satisfaction": -25,
+            "trust": 15
           },
           "riskCheck": false
         },
@@ -93,7 +103,176 @@
           "type": "LIE",
           "text": "我非常赞同，我也觉得必须生个男孩。",
           "effect": {
-            "satisfaction": 25
+            "satisfaction": 25,
+            "trust": -5
+          },
+          "riskCheck": true
+        }
+      ]
+    },
+    "topic_savings": {
+      "topicId": "topic_savings",
+      "question": "你平时有存钱的习惯吗？",
+      "options": [
+        {
+          "type": "TRUTH",
+          "text": "每个月会存一点，但不多。",
+          "effect": {
+            "satisfaction": 5,
+            "trust": 15
+          },
+          "riskCheck": false
+        },
+        {
+          "type": "LIE",
+          "text": "我收入的一半都会存起来，已经攒了不少了。",
+          "effect": {
+            "satisfaction": 20,
+            "trust": -5
+          },
+          "riskCheck": true
+        }
+      ]
+    },
+    "topic_career_plan": {
+      "topicId": "topic_career_plan",
+      "question": "你未来五年的职业规划是什么？",
+      "options": [
+        {
+          "type": "TRUTH",
+          "text": "希望能稳步晋升，做好现在的工作。",
+          "effect": {
+            "satisfaction": 10,
+            "trust": 15
+          },
+          "riskCheck": false
+        },
+        {
+          "type": "LIE",
+          "text": "准备跳槽去大厂做管理层，或者自己带团队。",
+          "effect": {
+            "satisfaction": 25,
+            "trust": -5
+          },
+          "riskCheck": true
+        }
+      ]
+    },
+    "topic_health": {
+      "topicId": "topic_health",
+      "question": "你平时有体检的习惯吗？身体怎么样？",
+      "options": [
+        {
+          "type": "TRUTH",
+          "text": "公司每年安排体检，身体还算健康。",
+          "effect": {
+            "satisfaction": 10,
+            "trust": 15
+          },
+          "riskCheck": false
+        },
+        {
+          "type": "LIE",
+          "text": "我非常注重养生，各项指标都非常完美。",
+          "effect": {
+            "satisfaction": 15,
+            "trust": -5
+          },
+          "riskCheck": true
+        }
+      ]
+    },
+    "topic_education": {
+      "topicId": "topic_education",
+      "question": "你觉得以后孩子的教育应该怎么规划？",
+      "options": [
+        {
+          "type": "TRUTH",
+          "text": "顺其自然吧，尽力给他提供好的条件。",
+          "effect": {
+            "satisfaction": 5,
+            "trust": 15
+          },
+          "riskCheck": false
+        },
+        {
+          "type": "LIE",
+          "text": "肯定要上最好的国际学校，教育投资不能省。",
+          "effect": {
+            "satisfaction": 20,
+            "trust": -5
+          },
+          "riskCheck": true
+        }
+      ]
+    },
+    "topic_parents_pension": {
+      "topicId": "topic_parents_pension",
+      "question": "你父母以后养老怎么打算？",
+      "options": [
+        {
+          "type": "TRUTH",
+          "text": "他们有自己的退休金，以后我也会尽力照顾。",
+          "effect": {
+            "satisfaction": 10,
+            "trust": 15
+          },
+          "riskCheck": false
+        },
+        {
+          "type": "LIE",
+          "text": "我已经给他们买好了高端养老社区的入住资格。",
+          "effect": {
+            "satisfaction": 25,
+            "trust": -5
+          },
+          "riskCheck": true
+        }
+      ]
+    },
+    "topic_cooking": {
+      "topicId": "topic_cooking",
+      "question": "你平时自己做饭吗？还是点外卖？",
+      "options": [
+        {
+          "type": "TRUTH",
+          "text": "工作太忙了，基本都是点外卖。",
+          "effect": {
+            "satisfaction": -5,
+            "trust": 15
+          },
+          "riskCheck": false
+        },
+        {
+          "type": "LIE",
+          "text": "我经常自己做饭，健康又卫生，还能省钱。",
+          "effect": {
+            "satisfaction": 20,
+            "trust": -5
+          },
+          "riskCheck": true
+        }
+      ]
+    },
+    "topic_work_life": {
+      "topicId": "topic_work_life",
+      "question": "如果公司要求经常加班，你怎么看？",
+      "options": [
+        {
+          "type": "TRUTH",
+          "text": "偶尔可以，但还是希望有自己的生活。",
+          "effect": {
+            "satisfaction": 5,
+            "trust": 15
+          },
+          "riskCheck": false
+        },
+        {
+          "type": "LIE",
+          "text": "只要加班费给够，或者对职业发展有利，我完全没问题。",
+          "effect": {
+            "satisfaction": 25,
+            "trust": -5
           },
           "riskCheck": true
         }

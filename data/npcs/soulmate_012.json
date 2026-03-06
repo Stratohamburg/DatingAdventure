@@ -14,11 +14,18 @@
     "success": 85
   },
   "topicWeights": {
-    "topic_psychological_defense": 3.0,
+    "topic_psychological_defense": 3,
     "topic_childhood_trauma": 2.5,
     "topic_sincerity": 2.5,
     "topic_salary": 0.1,
-    "topic_house": 0.1
+    "topic_house": 0.1,
+    "topic_art": 0.9,
+    "topic_music": 0.9,
+    "topic_childhood": 2,
+    "topic_dreams": 1.6,
+    "topic_philosophy": 1.4,
+    "topic_movies": 1.2,
+    "topic_pets": 1.9
   },
   "dialogueTree": {
     "topic_psychological_defense": {
@@ -30,7 +37,7 @@
           "text": "我觉得我确实有点防御心，不太容易相信别人。",
           "effect": {
             "satisfaction": 20,
-            "trust": 25
+            "trust": 30
           },
           "riskCheck": false
         },
@@ -38,7 +45,8 @@
           "type": "LIE",
           "text": "我完全没有防御心，我对所有人都很真诚。",
           "effect": {
-            "satisfaction": -20
+            "satisfaction": 10,
+            "trust": -5
           },
           "riskCheck": true
         },
@@ -46,7 +54,8 @@
           "type": "DEFLECT",
           "text": "你作为心理学博士，平时是怎么看穿别人的防御的？",
           "effect": {
-            "satisfaction": 10
+            "satisfaction": 5,
+            "trust": 0
           },
           "riskCheck": false
         }
@@ -61,7 +70,7 @@
           "text": "我童年过得挺普通的，没什么特别的创伤。",
           "effect": {
             "satisfaction": 10,
-            "trust": 15
+            "trust": 20
           },
           "riskCheck": false
         },
@@ -69,7 +78,8 @@
           "type": "LIE_ITEM",
           "text": "我童年受过很多创伤，这是我的心理咨询记录。",
           "effect": {
-            "satisfaction": 30
+            "satisfaction": 30,
+            "trust": 10
           },
           "itemRequired": "fake_counseling_record",
           "riskCheck": true
@@ -85,7 +95,7 @@
           "text": "我觉得是真诚和坦白，不能有任何欺骗。",
           "effect": {
             "satisfaction": 25,
-            "trust": 20
+            "trust": 25
           },
           "riskCheck": false
         },
@@ -93,7 +103,185 @@
           "type": "LIE",
           "text": "我觉得是互相包容和理解，偶尔善意的谎言也是可以的。",
           "effect": {
-            "satisfaction": -15
+            "satisfaction": 10,
+            "trust": -5
+          },
+          "riskCheck": true
+        }
+      ]
+    },
+    "topic_art": {
+      "topicId": "topic_art",
+      "question": "你平时喜欢看画展或者话剧吗？",
+      "options": [
+        {
+          "type": "TRUTH",
+          "text": "不太懂这些，平时很少去。",
+          "effect": {
+            "satisfaction": -5,
+            "trust": 15
+          },
+          "riskCheck": false
+        },
+        {
+          "type": "LIE",
+          "text": "非常喜欢，艺术能让人内心平静。",
+          "effect": {
+            "satisfaction": 20,
+            "trust": -5
+          },
+          "riskCheck": true
+        }
+      ]
+    },
+    "topic_music": {
+      "topicId": "topic_music",
+      "question": "你最喜欢什么类型的音乐？",
+      "options": [
+        {
+          "type": "TRUTH",
+          "text": "流行乐吧，听着放松。",
+          "effect": {
+            "satisfaction": 5,
+            "trust": 15
+          },
+          "riskCheck": false
+        },
+        {
+          "type": "LIE",
+          "text": "古典乐和独立民谣，喜欢有故事的声音。",
+          "effect": {
+            "satisfaction": 15,
+            "trust": -5
+          },
+          "riskCheck": true
+        }
+      ]
+    },
+    "topic_childhood": {
+      "topicId": "topic_childhood",
+      "question": "你的童年过得开心吗？",
+      "options": [
+        {
+          "type": "TRUTH",
+          "text": "挺普通的，和大多数人一样。",
+          "effect": {
+            "satisfaction": 5,
+            "trust": 15
+          },
+          "riskCheck": false
+        },
+        {
+          "type": "TRUTH",
+          "text": "其实有些遗憾，所以现在更想好好生活。",
+          "effect": {
+            "satisfaction": 20,
+            "trust": 20
+          },
+          "riskCheck": false
+        }
+      ]
+    },
+    "topic_dreams": {
+      "topicId": "topic_dreams",
+      "question": "你小时候的梦想是什么？现在实现了吗？",
+      "options": [
+        {
+          "type": "TRUTH",
+          "text": "想当科学家，现在嘛，就是个普通打工人。",
+          "effect": {
+            "satisfaction": 10,
+            "trust": 15
+          },
+          "riskCheck": false
+        },
+        {
+          "type": "LIE",
+          "text": "想环游世界，现在正在一步步实现中。",
+          "effect": {
+            "satisfaction": 15,
+            "trust": -5
+          },
+          "riskCheck": true
+        }
+      ]
+    },
+    "topic_philosophy": {
+      "topicId": "topic_philosophy",
+      "question": "你相信命运吗？",
+      "options": [
+        {
+          "type": "TRUTH",
+          "text": "不太信，我觉得事在人为。",
+          "effect": {
+            "satisfaction": 10,
+            "trust": 15
+          },
+          "riskCheck": false
+        },
+        {
+          "type": "TRUTH",
+          "text": "有时候会信，比如今天能遇到你。",
+          "effect": {
+            "satisfaction": 25,
+            "trust": 15
+          },
+          "riskCheck": false
+        }
+      ]
+    },
+    "topic_movies": {
+      "topicId": "topic_movies",
+      "question": "你最近有看什么触动你的电影吗？",
+      "options": [
+        {
+          "type": "TRUTH",
+          "text": "最近都在看爆米花喜剧，放松一下大脑。",
+          "effect": {
+            "satisfaction": -5,
+            "trust": 15
+          },
+          "riskCheck": false
+        },
+        {
+          "type": "TRUTH",
+          "text": "重温了《星际穿越》，关于爱能超越维度的设定很感人。",
+          "effect": {
+            "satisfaction": 25,
+            "trust": 15
+          },
+          "riskCheck": false
+        },
+        {
+          "type": "LIE",
+          "text": "看了一些欧洲的小众文艺片，探讨人性的那种。",
+          "effect": {
+            "satisfaction": 15,
+            "trust": -5
+          },
+          "riskCheck": true
+        }
+      ]
+    },
+    "topic_pets": {
+      "topicId": "topic_pets",
+      "question": "你觉得小动物能给人带来什么？",
+      "options": [
+        {
+          "type": "TRUTH",
+          "text": "就是个伴儿吧，无聊的时候可以逗逗。",
+          "effect": {
+            "satisfaction": 5,
+            "trust": 15
+          },
+          "riskCheck": false
+        },
+        {
+          "type": "LIE",
+          "text": "它们是纯粹的灵魂，能治愈我们内心的孤独。",
+          "effect": {
+            "satisfaction": 25,
+            "trust": -5
           },
           "riskCheck": true
         }
