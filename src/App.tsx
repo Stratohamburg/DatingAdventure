@@ -1,8 +1,7 @@
-import { useAppSelector, useAppDispatch } from './store/hooks';
+import { useAppSelector } from './store/hooks';
 import { selectGamePhase } from './store';
 import { GamePhase } from './types';
 import MainMenu from './components/MainMenu';
-import CharacterCreation from './components/CharacterCreation';
 import ShopScreen from './components/ShopScreen';
 import DateScreen from './components/DateScreen';
 import ResultScreen from './components/ResultScreen';
